@@ -1,17 +1,71 @@
 # Nocturne Mail
 
 > **Neo Kinpaku 스타일의 고급 웹메일 UI 프로토타입**  
-> 실제 메일 서버에 연결된 완성형 메일 서비스가 아니라, 메일 클라이언트의 화면 구성과 인터랙션을 설계·검증하기 위한 프론트엔드 프로젝트입니다.
-
-## 프로젝트 소개
+> 실제 메일 서버에 연결된 완성형 서비스가 아니라, 메일 클라이언트의 화면 구성과 인터랙션을 설계·검증하기 위한 프론트엔드 프로젝트입니다.
 
 `web_mail_plan`은 일반적인 웹메일의 정보 구조를 유지하면서도 Gmail·Outlook과는 다른 시각적 경험을 실험하기 위해 만든 웹메일 인터페이스 프로토타입입니다.
 
-프로젝트 내부에서는 이 제품을 **Nocturne Mail**이라고 부릅니다.
-
-디자인 방향은 **Neo Kinpaku**입니다. 일본식 금박(Kinpaku)의 얇고 불규칙한 선, 우루시 래커처럼 깊은 어두운 표면, 청록색 파티나 신호를 현대적인 메일 클라이언트 UI와 결합하는 것을 목표로 합니다.
+프로젝트 내부에서는 이 제품을 **Nocturne Mail**이라고 부릅니다. 디자인 방향은 **Neo Kinpaku**로, 일본식 금박의 얇고 불규칙한 선과 우루시 래커처럼 깊은 어두운 표면, 청록색 파티나 신호를 현대적인 메일 클라이언트 UI와 결합하는 것을 목표로 합니다.
 
 현재 구현은 UI/UX 프로토타입 단계이며 받은편지함, 별표, 보관, 검색, 메일 읽기, 작성창 등의 동작을 실제 서비스처럼 체험할 수 있도록 구성되어 있습니다. 다만 화면에 표시되는 메일은 목업 데이터이며 IMAP, SMTP, JMAP 등의 실제 메일 서버와 연결되어 있지는 않습니다.
+
+---
+
+## 3D Project Structure
+
+README에서 프로젝트 구조를 바로 파악할 수 있도록 현재 코드를 **등각(Isometric) 3D 구조**로 정리했습니다.
+
+<p align="center">
+  <img src="./docs/architecture-3d.svg" alt="Nocturne Mail 3D project architecture" width="100%" />
+</p>
+
+### 구조 한눈에 보기
+
+- **CLIENT** — React 19 + TypeScript + Vite 기반의 실제 Nocturne Mail UI
+- **SHARED** — 클라이언트/서버 공통 타입과 향후 API 계약을 위한 영역
+- **SERVER** — Node.js + Express 기반의 프로덕션 정적 파일 제공 서버
+- **FUTURE MAIL** — 아직 연결되지 않은 JMAP / IMAP / SMTP / 인증 영역
+
+현재 구조에서 핵심은 `client/src/pages/Home.tsx`이며 메일 목록, 메일 읽기, 작성 인터페이스, 검색/필터, 별표 등 주요 UI 상태가 이곳에 구성되어 있습니다.
+
+<details>
+<summary><strong>텍스트 형태의 디렉터리 구조도 보기</strong></summary>
+
+```text
+web_mail_plan/
+├─ client/
+│  ├─ public/
+│  ├─ index.html
+│  └─ src/
+│     ├─ components/       # 공통 UI 컴포넌트
+│     ├─ contexts/         # React Context 관련 코드
+│     ├─ hooks/            # 커스텀 Hooks
+│     ├─ lib/              # 유틸리티 / 공통 로직
+│     ├─ pages/
+│     │  ├─ Home.tsx       # 메인 Nocturne Mail 화면
+│     │  └─ NotFound.tsx   # 404 화면
+│     ├─ App.tsx           # 애플리케이션 루트
+│     ├─ main.tsx          # React 엔트리 포인트
+│     ├─ const.ts          # 공통 상수
+│     └─ index.css         # 메인 스타일
+│
+├─ server/
+│  └─ index.ts             # 프로덕션 정적 파일 제공용 Express 서버
+│
+├─ shared/                 # 클라이언트/서버 공용 코드 영역
+├─ patches/                # pnpm dependency patch
+├─ docs/
+│  └─ architecture-3d.svg  # README에 표시되는 3D 구조도
+├─ ideas.md                # 디자인 방향 및 제품 컨셉 문서
+├─ verification.md         # 구현 검증 관련 메모
+├─ components.json         # UI 컴포넌트 설정
+├─ package.json
+├─ pnpm-lock.yaml
+├─ tsconfig.json
+└─ README.md
+```
+
+</details>
 
 ---
 
@@ -77,7 +131,7 @@
 
 현재 `Home.tsx` 내부에 정의된 목업 메일 데이터를 사용해 화면과 인터랙션을 확인하는 구조입니다.
 
-따라서 이 저장소는 현재 기준으로는 **웹메일 디자인 프로토타입 / 프론트엔드 베이스**라고 보는 것이 가장 정확합니다.
+따라서 현재 저장소는 **웹메일 디자인 프로토타입 / 실제 웹메일 프론트엔드의 베이스**라고 보는 것이 가장 정확합니다.
 
 ---
 
@@ -110,65 +164,6 @@
 
 ---
 
-## 프로젝트 구조 — 3D Architecture
-
-프로젝트의 큰 구조를 **등각(Isometric) 3D 다이어그램**으로 표현했습니다. 현재 실제 구현 영역과 향후 메일 서버 연동 영역을 시각적으로 분리해 두었습니다.
-
-<p align="center">
-  <img src="./docs/architecture-3d.svg" alt="Nocturne Mail 3D project architecture" width="100%" />
-</p>
-
-### 구조 해설
-
-**CLIENT**는 현재 프로젝트의 핵심입니다. React와 TypeScript로 구성되며 실제 사용자가 보는 Nocturne Mail UI, 메일 목록, 읽기 화면, 작성 인터페이스 및 상태 처리가 이 영역에 들어갑니다.
-
-**SHARED**는 클라이언트와 서버 사이에서 공통 타입이나 계약을 두기 위한 공간입니다. 현재 규모는 작지만 이후 실제 메일 API를 연결할 때 요청/응답 타입 및 공통 모델을 두기 좋습니다.
-
-**SERVER**는 현재 메일 백엔드가 아닙니다. `server/index.ts`의 Express 서버는 Vite가 빌드한 정적 파일을 제공하고 SPA 라우팅을 처리합니다.
-
-**FUTURE MAIL**은 아직 구현되지 않은 영역입니다. 향후 JMAP, IMAP, SMTP, 인증 서버 등을 연결하면 실제 웹메일 클라이언트로 확장할 수 있습니다. 다이어그램에서 점선으로 표시된 이유도 현재 코드에 연결되어 있지 않기 때문입니다.
-
-<details>
-<summary><strong>텍스트 형태의 디렉터리 구조 보기</strong></summary>
-
-```text
-web_mail_plan/
-├─ client/
-│  ├─ public/
-│  ├─ index.html
-│  └─ src/
-│     ├─ components/       # 공통 UI 컴포넌트
-│     ├─ contexts/         # React Context 관련 코드
-│     ├─ hooks/            # 커스텀 Hooks
-│     ├─ lib/              # 유틸리티 / 공통 로직
-│     ├─ pages/
-│     │  ├─ Home.tsx       # 메인 Nocturne Mail 화면
-│     │  └─ NotFound.tsx   # 404 화면
-│     ├─ App.tsx           # 애플리케이션 루트
-│     ├─ main.tsx          # React 엔트리 포인트
-│     ├─ const.ts          # 공통 상수
-│     └─ index.css         # 메인 스타일
-│
-├─ server/
-│  └─ index.ts             # 프로덕션 정적 파일 제공용 Express 서버
-│
-├─ shared/                 # 클라이언트/서버 공용 코드 영역
-├─ patches/                # pnpm dependency patch
-├─ docs/
-│  └─ architecture-3d.svg  # README용 3D 프로젝트 구조도
-├─ ideas.md                # 디자인 방향 및 제품 컨셉 문서
-├─ verification.md         # 구현 검증 관련 메모
-├─ components.json         # UI 컴포넌트 설정
-├─ package.json
-├─ pnpm-lock.yaml
-├─ tsconfig.json
-└─ README.md
-```
-
-</details>
-
----
-
 ## 설치 방법
 
 ### 1. 저장소 Clone
@@ -186,7 +181,7 @@ cd web_mail_plan
 npm install -g pnpm
 ```
 
-또는 Node.js의 Corepack을 사용할 수도 있습니다.
+또는 Node.js의 Corepack을 사용할 수 있습니다.
 
 ```bash
 corepack enable
@@ -206,17 +201,15 @@ pnpm install
 pnpm dev
 ```
 
-Vite 개발 서버가 실행됩니다.
+Vite 개발 서버가 실행됩니다. 터미널에 출력되는 로컬 주소를 브라우저에서 열면 Nocturne Mail UI를 확인할 수 있습니다.
 
-터미널에 출력되는 로컬 주소를 브라우저에서 열면 Nocturne Mail UI를 확인할 수 있습니다.
-
-일반적으로 다음과 같은 주소가 사용됩니다.
+일반적으로 다음 주소가 사용됩니다.
 
 ```text
 http://localhost:5173
 ```
 
-이미 해당 포트를 다른 프로그램이 사용 중이라면 Vite가 다른 포트를 선택할 수 있으므로 터미널 출력 주소를 확인하는 것이 가장 정확합니다.
+이미 해당 포트를 다른 프로그램이 사용 중이라면 Vite가 다른 포트를 선택할 수 있으므로 터미널에 표시되는 주소를 확인하세요.
 
 ---
 
@@ -258,13 +251,7 @@ pnpm build
 pnpm start
 ```
 
-프로덕션 서버는 기본적으로 다음 포트를 사용합니다.
-
-```text
-3000
-```
-
-환경 변수 `PORT`를 지정하면 포트를 변경할 수 있습니다.
+프로덕션 서버는 기본적으로 `3000` 포트를 사용합니다.
 
 Linux/macOS:
 
@@ -283,11 +270,11 @@ pnpm start
 
 ## Preview 모드
 
-프로덕션에 가까운 형태로 Vite 빌드 결과를 간단하게 확인하려면 다음 명령을 사용할 수 있습니다.
-
 ```bash
 pnpm preview
 ```
+
+프로덕션에 가까운 형태로 Vite 빌드 결과를 간단하게 확인할 수 있습니다.
 
 ---
 
@@ -312,9 +299,9 @@ pnpm preview
 client/src/pages/Home.tsx
 ```
 
-이 파일에서 메일 목록을 위한 목업 데이터, 받은편지함 상태, 메일 선택 상태, 검색/필터 관련 UI, 작성 인터페이스 등 Nocturne Mail의 핵심 화면이 구성됩니다.
+이 파일에서 메일 목록용 목업 데이터, 받은편지함 상태, 메일 선택 상태, 검색/필터 관련 UI, 작성 인터페이스 등 Nocturne Mail의 핵심 화면이 구성됩니다.
 
-목업 메일은 대략 다음과 같은 형태의 데이터 구조를 사용합니다.
+목업 메일은 다음과 같은 형태의 데이터 구조를 사용합니다.
 
 ```ts
 type MailItem = {
@@ -401,9 +388,7 @@ Nocturne Mail의 핵심 디자인 방향입니다.
 
 ### JMAP
 
-현대적인 메일 서버를 사용한다면 가장 잘 어울리는 방식 중 하나입니다.
-
-예를 들어 Stalwart Mail Server처럼 JMAP을 지원하는 서버와 연결할 경우 다음 기능을 구현할 수 있습니다.
+Stalwart Mail Server처럼 JMAP을 지원하는 서버와 연결할 경우 다음 기능을 구현할 수 있습니다.
 
 ```text
 Nocturne Mail
@@ -468,7 +453,7 @@ Application Backend
 - React 기반 대시보드/메일 레이아웃 참고
 - 반응형 3단 메일 인터페이스 프로토타이핑
 
-반대로 현재 상태 그대로는 다음 용도로 사용할 수 없습니다.
+현재 상태 그대로는 다음 용도로 사용할 수 없습니다.
 
 - Gmail 계정에 로그인해서 실제 메일 읽기
 - 자체 도메인의 실제 메일 송수신
