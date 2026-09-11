@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Nocturne Mail 3D Project Architecture</title>
+  <desc id="desc">Isometric diagram showing the React client, shared layer, Express static server, and future mail integration layer.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d0c0a"/>
+      <stop offset="1" stop-color="#17130f"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2d56b"/>
+      <stop offset="1" stop-color="#b88a28"/>
+    </linearGradient>
+    <linearGradient id="patina" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6dc7bd"/>
+      <stop offset="1" stop-color="#2e756d"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <style>
+      .title { font: 700 42px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #f5ead1; letter-spacing: .8px; }
+      .subtitle { font: 500 16px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #bdb4a4; letter-spacing: 2px; }
+      .layer { font: 700 23px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #f8edcf; }
+      .label { font: 600 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #e7dcc3; }
+      .small { font: 500 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #9f978a; }
+      .goldText { fill: #edc95a; }
+      .patinaText { fill: #6bc5ba; }
+      .stroke { stroke: #3a3328; stroke-width: 1.5; }
+      .wire { fill: none; stroke: #806f4a; stroke-width: 2; stroke-dasharray: 7 9; opacity: .8; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="900" rx="34" fill="url(#bg)"/>
+  <path d="M80 150 H1320" stroke="#5d4a25" stroke-width="1" opacity=".55"/>
+  <text x="82" y="83" class="title">NOCTURNE MAIL — PROJECT ARCHITECTURE</text>
+  <text x="84" y="118" class="subtitle">WEB_MAIL_PLAN / ISOMETRIC VIEW / CURRENT IMPLEMENTATION</text>
+
+  <!-- CLIENT PLATFORM -->
+  <g filter="url(#shadow)">
+    <polygon points="170,270 520,190 830,320 480,400" fill="#251f17" class="stroke"/>
+    <polygon points="480,400 830,320 830,485 480,568" fill="#17130f" class="stroke"/>
+    <polygon points="170,270 480,400 480,568 170,438" fill="#1d1913" class="stroke"/>
+    <polygon points="200,273 520,202 800,321 480,392" fill="#13110e" stroke="url(#gold)" stroke-width="2"/>
+  </g>
+  <text x="235" y="287" class="layer">CLIENT</text>
+  <text x="236" y="313" class="small goldText">React 19 · TypeScript · Vite</text>
+
+  <!-- client modules -->
+  <g>
+    <polygon points="255,340 375,312 475,354 355,382" fill="#342a1c" stroke="#7c622d"/>
+    <polygon points="355,382 475,354 475,417 355,445" fill="#211b14" stroke="#7c622d"/>
+    <polygon points="255,340 355,382 355,445 255,403" fill="#2a2218" stroke="#7c622d"/>
+    <text x="285" y="369" class="label">pages/</text>
+    <text x="282" y="394" class="small">Home.tsx</text>
+
+    <polygon points="430,300 550,272 650,314 530,342" fill="#20322f" stroke="#4e9d93"/>
+    <polygon points="530,342 650,314 650,377 530,405" fill="#16231f" stroke="#4e9d93"/>
+    <polygon points="430,300 530,342 530,405 430,363" fill="#1b2926" stroke="#4e9d93"/>
+    <text x="454" y="329" class="label">components/</text>
+    <text x="454" y="354" class="small">UI primitives</text>
+
+    <polygon points="520,376 640,348 740,390 620,418" fill="#282520" stroke="#70685d"/>
+    <polygon points="620,418 740,390 740,453 620,481" fill="#191713" stroke="#70685d"/>
+    <polygon points="520,376 620,418 620,481 520,439" fill="#201d18" stroke="#70685d"/>
+    <text x="549" y="405" class="label">hooks/lib</text>
+    <text x="548" y="430" class="small">state + utils</text>
+  </g>
+
+  <!-- SHARED PLATFORM -->
+  <g filter="url(#shadow)">
+    <polygon points="515,610 735,560 925,640 705,690" fill="#172724" stroke="#367c74" stroke-width="1.5"/>
+    <polygon points="705,690 925,640 925,735 705,785" fill="#101b19" stroke="#367c74" stroke-width="1.5"/>
+    <polygon points="515,610 705,690 705,785 515,705" fill="#13201e" stroke="#367c74" stroke-width="1.5"/>
+  </g>
+  <text x="580" y="640" class="layer">SHARED</text>
+  <text x="580" y="666" class="small patinaText">shared/ · common types / future contracts</text>
+
+  <!-- SERVER PLATFORM -->
+  <g filter="url(#shadow)">
+    <polygon points="900,350 1090,305 1255,375 1065,420" fill="#272019" stroke="#826c3e" stroke-width="1.5"/>
+    <polygon points="1065,420 1255,375 1255,535 1065,580" fill="#18130f" stroke="#826c3e" stroke-width="1.5"/>
+    <polygon points="900,350 1065,420 1065,580 900,510" fill="#201913" stroke="#826c3e" stroke-width="1.5"/>
+  </g>
+  <text x="950" y="387" class="layer">SERVER</text>
+  <text x="951" y="414" class="small goldText">Node.js · Express</text>
+  <text x="950" y="453" class="label">server/index.ts</text>
+  <text x="950" y="479" class="small">static hosting</text>
+  <text x="950" y="501" class="small">SPA fallback</text>
+  <text x="950" y="523" class="small">PORT 3000</text>
+
+  <!-- FUTURE MAIL PLATFORM -->
+  <g opacity=".82">
+    <polygon points="1005,670 1140,638 1260,688 1125,720" fill="#1d2b29" stroke="#3f8e85" stroke-width="1.4" stroke-dasharray="6 5"/>
+    <polygon points="1125,720 1260,688 1260,790 1125,822" fill="#101a18" stroke="#3f8e85" stroke-width="1.4" stroke-dasharray="6 5"/>
+    <polygon points="1005,670 1125,720 1125,822 1005,772" fill="#14211f" stroke="#3f8e85" stroke-width="1.4" stroke-dasharray="6 5"/>
+  </g>
+  <text x="1033" y="704" class="label patinaText">FUTURE MAIL</text>
+  <text x="1034" y="734" class="small">JMAP / IMAP</text>
+  <text x="1034" y="756" class="small">SMTP / Auth</text>
+  <text x="1034" y="778" class="small">not connected yet</text>
+
+  <!-- connections -->
+  <path d="M805 430 C875 430 858 432 915 432" class="wire"/>
+  <path d="M660 560 C680 580 690 590 708 607" class="wire"/>
+  <path d="M921 693 C968 704 982 704 1017 712" class="wire"/>
+
+  <circle cx="844" cy="431" r="4" fill="#edc95a"/>
+  <text x="842" y="412" class="small">build / serve</text>
+  <circle cx="698" cy="598" r="4" fill="#6bc5ba"/>
+  <text x="620" y="585" class="small">shared contracts</text>
+  <circle cx="974" cy="704" r="4" fill="#6bc5ba"/>
+  <text x="935" y="687" class="small">future API</text>
+
+  <!-- legend -->
+  <rect x="85" y="746" width="360" height="92" rx="16" fill="#12100d" stroke="#3f382c"/>
+  <circle cx="112" cy="777" r="6" fill="#edc95a"/>
+  <text x="130" y="782" class="small">implemented application layer</text>
+  <circle cx="112" cy="810" r="6" fill="#6bc5ba"/>
+  <text x="130" y="815" class="small">shared / integration boundary</text>
+
+  <text x="1030" y="855" class="subtitle">NEO KINPAKU / 2026</text>
+</svg>
