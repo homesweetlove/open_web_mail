@@ -3,7 +3,7 @@
 > **Neo Kinpaku 스타일의 고급 웹메일 UI 프로토타입**  
 > 실제 메일 서버에 연결된 완성형 서비스가 아니라, 메일 클라이언트의 화면 구성과 인터랙션을 설계·검증하기 위한 프론트엔드 프로젝트입니다.
 
-`web_mail_plan`은 일반적인 웹메일의 정보 구조를 유지하면서도 Gmail·Outlook과는 다른 시각적 경험을 실험하기 위해 만든 웹메일 인터페이스 프로토타입입니다.
+`open_web_mail`은 일반적인 웹메일의 정보 구조를 유지하면서도 Gmail·Outlook과는 다른 시각적 경험을 실험하기 위해 만든 웹메일 인터페이스 프로토타입입니다.
 
 프로젝트 내부에서는 이 제품을 **Nocturne Mail**이라고 부릅니다. 디자인 방향은 **Neo Kinpaku**로, 일본식 금박의 얇고 불규칙한 선과 우루시 래커처럼 깊은 어두운 표면, 청록색 파티나 신호를 현대적인 메일 클라이언트 UI와 결합하는 것을 목표로 합니다.
 
@@ -32,7 +32,7 @@ README에서 프로젝트 구조를 바로 파악할 수 있도록 현재 코드
 <summary><strong>텍스트 형태의 디렉터리 구조도 보기</strong></summary>
 
 ```text
-web_mail_plan/
+open_web_mail/
 ├─ client/
 │  ├─ public/
 │  ├─ index.html
@@ -169,8 +169,8 @@ web_mail_plan/
 ### 1. 저장소 Clone
 
 ```bash
-git clone https://github.com/homesweetlove/web_mail_plan.git
-cd web_mail_plan
+git clone https://github.com/homesweetlove/open_web_mail.git
+cd open_web_mail
 ```
 
 ### 2. pnpm 설치
@@ -501,8 +501,8 @@ SPA 라우팅을 위해 정의되지 않은 경로에서도 `index.html`을 반�
 설치 후 최소 실행 절차는 아래 세 줄이면 충분합니다.
 
 ```bash
-git clone https://github.com/homesweetlove/web_mail_plan.git
-cd web_mail_plan
+git clone https://github.com/homesweetlove/open_web_mail.git
+cd open_web_mail
 pnpm install && pnpm dev
 ```
 
