@@ -1,35 +1,37 @@
+[![English](https://img.shields.io/badge/README-English-24292f?style=for-the-badge)](./README.md) [![한국어](https://img.shields.io/badge/README-%ED%95%9C%EA%B5%AD%EC%96%B4-24292f?style=for-the-badge)](./README.ko.md)
+
 # Nocturne Mail
 
-> **Neo Kinpaku 스타일의 고급 웹메일 UI 프로토타입**  
-> 실제 메일 서버에 연결된 완성형 서비스가 아니라, 메일 클라이언트의 화면 구성과 인터랙션을 설계·검증하기 위한 프론트엔드 프로젝트입니다.
+> **A premium webmail UI prototype in the Neo Kinpaku style**  
+> This is not a production mail service connected to a real mail server. It is a frontend project for designing and validating the layout and interactions of a mail client.
 
-`open_web_mail`은 일반적인 웹메일의 정보 구조를 유지하면서도 Gmail·Outlook과는 다른 시각적 경험을 실험하기 위해 만든 웹메일 인터페이스 프로토타입입니다.
+`open_web_mail` is a webmail-interface prototype that keeps the familiar information architecture of ordinary webmail while exploring a visual experience that differs from Gmail and Outlook.
 
-프로젝트 내부에서는 이 제품을 **Nocturne Mail**이라고 부릅니다. 디자인 방향은 **Neo Kinpaku**로, 일본식 금박의 얇고 불규칙한 선과 우루시 래커처럼 깊은 어두운 표면, 청록색 파티나 신호를 현대적인 메일 클라이언트 UI와 결합하는 것을 목표로 합니다.
+Inside the project, the product is called **Nocturne Mail**. Its design direction is **Neo Kinpaku**, combining the thin, irregular lines of Japanese gold-leaf craft, deep dark surfaces reminiscent of urushi lacquer, and turquoise patina signals with a modern mail-client UI.
 
-현재 구현은 UI/UX 프로토타입 단계이며 받은편지함, 별표, 보관, 검색, 메일 읽기, 작성창 등의 동작을 실제 서비스처럼 체험할 수 있도록 구성되어 있습니다. 다만 화면에 표시되는 메일은 목업 데이터이며 IMAP, SMTP, JMAP 등의 실제 메일 서버와 연결되어 있지는 않습니다.
+The current implementation is at the UI/UX prototype stage. Inbox, starred mail, archive, search, message reading, and compose interactions are designed to feel like a real service. The messages displayed on screen are mock data, however, and the project is not connected to a real IMAP, SMTP, or JMAP server.
 
 ---
 
 ## 3D Project Structure
 
-README에서 프로젝트 구조를 바로 파악할 수 있도록 현재 코드를 **등각(Isometric) 3D 구조**로 정리했습니다.
+The current codebase is visualized as an **isometric 3D architecture diagram** so the project structure can be understood directly from the README.
 
 <p align="center">
   <img src="./docs/architecture-3d.svg" alt="Nocturne Mail 3D project architecture" width="100%" />
 </p>
 
-### 구조 한눈에 보기
+### Structure at a Glance
 
-- **CLIENT** — React 19 + TypeScript + Vite 기반의 실제 Nocturne Mail UI
-- **SHARED** — 클라이언트/서버 공통 타입과 향후 API 계약을 위한 영역
-- **SERVER** — Node.js + Express 기반의 프로덕션 정적 파일 제공 서버
-- **FUTURE MAIL** — 아직 연결되지 않은 JMAP / IMAP / SMTP / 인증 영역
+- **CLIENT** — the actual Nocturne Mail UI built with React 19 + TypeScript + Vite
+- **SHARED** — area for client/server shared types and future API contracts
+- **SERVER** — Node.js + Express server for serving production static files
+- **FUTURE MAIL** — JMAP / IMAP / SMTP / authentication areas that are not connected yet
 
-현재 구조에서 핵심은 `client/src/pages/Home.tsx`이며 메일 목록, 메일 읽기, 작성 인터페이스, 검색/필터, 별표 등 주요 UI 상태가 이곳에 구성되어 있습니다.
+The core of the current structure is `client/src/pages/Home.tsx`, where the main UI state for the message list, reading view, compose interface, search/filtering, starred state, and related interactions is implemented.
 
 <details>
-<summary><strong>텍스트 형태의 디렉터리 구조도 보기</strong></summary>
+<summary><strong>View the directory structure as text</strong></summary>
 
 ```text
 open_web_mail/
@@ -37,28 +39,28 @@ open_web_mail/
 │  ├─ public/
 │  ├─ index.html
 │  └─ src/
-│     ├─ components/       # 공통 UI 컴포넌트
-│     ├─ contexts/         # React Context 관련 코드
-│     ├─ hooks/            # 커스텀 Hooks
-│     ├─ lib/              # 유틸리티 / 공통 로직
+│     ├─ components/       # Shared UI components
+│     ├─ contexts/         # React Context-related code
+│     ├─ hooks/            # Custom hooks
+│     ├─ lib/              # Utilities / shared logic
 │     ├─ pages/
-│     │  ├─ Home.tsx       # 메인 Nocturne Mail 화면
-│     │  └─ NotFound.tsx   # 404 화면
-│     ├─ App.tsx           # 애플리케이션 루트
-│     ├─ main.tsx          # React 엔트리 포인트
-│     ├─ const.ts          # 공통 상수
-│     └─ index.css         # 메인 스타일
+│     │  ├─ Home.tsx       # Main Nocturne Mail screen
+│     │  └─ NotFound.tsx   # 404 screen
+│     ├─ App.tsx           # Application root
+│     ├─ main.tsx          # React entry point
+│     ├─ const.ts          # Shared constants
+│     └─ index.css         # Main styles
 │
 ├─ server/
-│  └─ index.ts             # 프로덕션 정적 파일 제공용 Express 서버
+│  └─ index.ts             # Express server for production static files
 │
-├─ shared/                 # 클라이언트/서버 공용 코드 영역
-├─ patches/                # pnpm dependency patch
+├─ shared/                 # Client/server shared code
+├─ patches/                # pnpm dependency patches
 ├─ docs/
-│  └─ architecture-3d.svg  # README에 표시되는 3D 구조도
-├─ ideas.md                # 디자인 방향 및 제품 컨셉 문서
-├─ verification.md         # 구현 검증 관련 메모
-├─ components.json         # UI 컴포넌트 설정
+│  └─ architecture-3d.svg  # 3D structure diagram used in README
+├─ ideas.md                # Design direction and product concept
+├─ verification.md         # Implementation verification notes
+├─ components.json         # UI component configuration
 ├─ package.json
 ├─ pnpm-lock.yaml
 ├─ tsconfig.json
@@ -69,73 +71,73 @@ open_web_mail/
 
 ---
 
-## 현재 구현된 내용
+## Current Implementation
 
-### 메일함 UI
+### Mailbox UI
 
-- 받은편지함
-- 별표 표시
-- 다시 알림
-- 보낸편지함
-- 임시보관함
-- 보관함
-- 라벨/카테고리 표시
-- 읽음 / 안읽음 상태 표현
-- 별표 상태 표현
-- 첨부파일 상태 표현
-- 선택된 메일 본문 보기
+- Inbox
+- Starred
+- Snoozed
+- Sent
+- Drafts
+- Archive
+- Label/category display
+- Read/unread state
+- Starred state
+- Attachment state
+- Selected-message reading view
 
-### 기본 인터랙션
+### Core Interactions
 
-- 메일 선택 및 내용 보기
-- 메일 검색/필터링 UI
-- 별표 토글
-- 보관 관련 UI
-- 새로고침 UI
-- 메일 작성(Compose) 인터페이스
-- 각종 툴바 액션
-- 구현되지 않은 기능에 대한 안내 토스트
-- 반응형 레이아웃
+- Select and read messages
+- Search/filter UI
+- Star toggle
+- Archive-related UI
+- Refresh UI
+- Compose interface
+- Toolbar actions
+- Toast notices for unimplemented actions
+- Responsive layout
 
-### 디자인 특징
+### Design Characteristics
 
-- 비대칭 3열 데스크톱 레이아웃
-- 왼쪽 메일 네비게이션
-- 중앙 메일 작업 영역
-- 오른쪽 컨텍스트 패널
-- 금박을 연상시키는 골드 포인트
-- 따뜻한 흑갈색 계열의 래커 배경
-- 읽지 않은 메일 및 상태 표시용 청록색 Patina 포인트
-- 작은 모노스페이스 상태 레이블
-- 짧고 절제된 UI 애니메이션
-- 모바일/태블릿 대응 레이아웃
-
----
-
-## 중요한 점: 실제 메일 서비스는 아닙니다
-
-현재 버전에는 실제 메일 송수신 기능이 없습니다.
-
-아래 기능은 아직 연결되어 있지 않습니다.
-
-- IMAP 서버 연결
-- SMTP 서버 연결
-- JMAP 서버 연결
-- 실제 사용자 로그인/인증
-- 서버에서 받은 메일 목록 동기화
-- 실제 메일 전송
-- 실제 첨부파일 업로드/다운로드
-- 메일 서버의 폴더/라벨 동기화
-- 실제 읽음/안읽음 상태 저장
-- 실제 별표/보관/삭제 상태 저장
-
-현재 `Home.tsx` 내부에 정의된 목업 메일 데이터를 사용해 화면과 인터랙션을 확인하는 구조입니다.
-
-따라서 현재 저장소는 **웹메일 디자인 프로토타입 / 실제 웹메일 프론트엔드의 베이스**라고 보는 것이 가장 정확합니다.
+- Asymmetric three-column desktop layout
+- Left mail navigation
+- Center mail workspace
+- Right context panel
+- Gold accents inspired by gold leaf
+- Warm black-brown lacquer background
+- Turquoise patina accents for unread/status signals
+- Small monospace status labels
+- Short, restrained UI animation
+- Tablet/mobile responsive layouts
 
 ---
 
-## 기술 스택
+## Important: This Is Not a Real Mail Service
+
+The current version does not send or receive real email.
+
+The following features are not connected yet:
+
+- IMAP server connection
+- SMTP server connection
+- JMAP server connection
+- Real user login/authentication
+- Server-side inbox synchronization
+- Real email sending
+- Real attachment upload/download
+- Mail-server folder/label synchronization
+- Persistent read/unread state
+- Persistent star/archive/delete state
+
+The interface currently uses mock mail data defined inside `Home.tsx`.
+
+So the most accurate description of this repository is a **webmail design prototype / frontend foundation for a real webmail client**.
+
+---
+
+## Tech Stack
 
 ### Frontend
 
@@ -156,7 +158,7 @@ open_web_mail/
 - Node.js
 - Express
 
-현재 Express 서버는 메일 API 서버가 아니라 프로덕션 빌드 결과물을 제공하기 위한 정적 웹 서버 역할을 합니다.
+The current Express server is not a mail API server. It only serves the production build output as static files.
 
 ### Package Manager
 
@@ -164,30 +166,30 @@ open_web_mail/
 
 ---
 
-## 설치 방법
+## Installation
 
-### 1. 저장소 Clone
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/homesweetlove/open_web_mail.git
 cd open_web_mail
 ```
 
-### 2. pnpm 설치
+### 2. Install pnpm
 
-이미 pnpm이 설치되어 있다면 넘어가도 됩니다.
+Skip this step if pnpm is already installed.
 
 ```bash
 npm install -g pnpm
 ```
 
-또는 Node.js의 Corepack을 사용할 수 있습니다.
+Or use Node.js Corepack:
 
 ```bash
 corepack enable
 ```
 
-### 3. 의존성 설치
+### 3. Install Dependencies
 
 ```bash
 pnpm install
@@ -195,63 +197,63 @@ pnpm install
 
 ---
 
-## 개발 서버 실행
+## Run the Development Server
 
 ```bash
 pnpm dev
 ```
 
-Vite 개발 서버가 실행됩니다. 터미널에 출력되는 로컬 주소를 브라우저에서 열면 Nocturne Mail UI를 확인할 수 있습니다.
+Vite starts the development server. Open the local address printed in the terminal to view Nocturne Mail.
 
-일반적으로 다음 주소가 사용됩니다.
+The usual address is:
 
 ```text
 http://localhost:5173
 ```
 
-이미 해당 포트를 다른 프로그램이 사용 중이라면 Vite가 다른 포트를 선택할 수 있으므로 터미널에 표시되는 주소를 확인하세요.
+If that port is already in use, Vite may choose another one, so use the address shown in the terminal.
 
 ---
 
-## TypeScript 검사
+## TypeScript Check
 
 ```bash
 pnpm check
 ```
 
-`tsc --noEmit`을 이용해 TypeScript 타입 오류를 확인합니다.
+This runs TypeScript checking with `tsc --noEmit`.
 
 ---
 
-## 코드 포맷팅
+## Code Formatting
 
 ```bash
 pnpm format
 ```
 
-프로젝트 전체를 Prettier 기준으로 정리합니다.
+Formats the project with Prettier.
 
 ---
 
-## 프로덕션 빌드
+## Production Build
 
 ```bash
 pnpm build
 ```
 
-빌드 과정에서는 다음 작업이 수행됩니다.
+The build process:
 
-1. Vite로 프론트엔드를 빌드합니다.
-2. `server/index.ts`를 esbuild로 번들링합니다.
-3. 프로덕션 실행에 필요한 결과물을 `dist`에 생성합니다.
+1. Builds the frontend with Vite.
+2. Bundles `server/index.ts` with esbuild.
+3. Generates the production output under `dist`.
 
-빌드가 정상적으로 끝난 뒤에는 다음 명령으로 실행할 수 있습니다.
+After a successful build:
 
 ```bash
 pnpm start
 ```
 
-프로덕션 서버는 기본적으로 `3000` 포트를 사용합니다.
+The production server uses port `3000` by default.
 
 Linux/macOS:
 
@@ -268,40 +270,40 @@ pnpm start
 
 ---
 
-## Preview 모드
+## Preview Mode
 
 ```bash
 pnpm preview
 ```
 
-프로덕션에 가까운 형태로 Vite 빌드 결과를 간단하게 확인할 수 있습니다.
+This provides a simple preview of the Vite production build.
 
 ---
 
-## 주요 npm/pnpm 스크립트
+## Main npm/pnpm Scripts
 
-| 명령어 | 설명 |
+| Command | Description |
 |---|---|
-| `pnpm dev` | Vite 개발 서버 실행 |
-| `pnpm build` | 프론트엔드 + Express 서버 프로덕션 빌드 |
-| `pnpm start` | 빌드된 프로덕션 서버 실행 |
-| `pnpm preview` | Vite preview 서버 실행 |
-| `pnpm check` | TypeScript 타입 검사 |
-| `pnpm format` | Prettier를 이용해 전체 코드 포맷팅 |
+| `pnpm dev` | Start the Vite development server |
+| `pnpm build` | Build the frontend + Express production server |
+| `pnpm start` | Run the built production server |
+| `pnpm preview` | Run the Vite preview server |
+| `pnpm check` | TypeScript type checking |
+| `pnpm format` | Format all code with Prettier |
 
 ---
 
-## 메인 화면 코드
+## Main Screen Code
 
-현재 프로젝트의 중심은 다음 파일입니다.
+The center of the current project is:
 
 ```text
 client/src/pages/Home.tsx
 ```
 
-이 파일에서 메일 목록용 목업 데이터, 받은편지함 상태, 메일 선택 상태, 검색/필터 관련 UI, 작성 인터페이스 등 Nocturne Mail의 핵심 화면이 구성됩니다.
+This file contains the mock message data, inbox state, selected-message state, search/filter UI, compose interface, and other core Nocturne Mail screen logic.
 
-목업 메일은 다음과 같은 형태의 데이터 구조를 사용합니다.
+Mock messages use a structure similar to:
 
 ```ts
 type MailItem = {
@@ -321,41 +323,41 @@ type MailItem = {
 };
 ```
 
-실제 메일 서버를 연결할 경우 이 목업 데이터를 서버 응답 데이터로 교체하면 됩니다.
+When a real mail server is connected, this mock data can be replaced by server response data.
 
 ---
 
-## 디자인 컨셉
+## Design Concept
 
-자세한 디자인 의도는 [`ideas.md`](./ideas.md)에 정리되어 있습니다.
+The detailed design intent is documented in [`ideas.md`](./ideas.md).
 
 ### Neo Kinpaku
 
-Nocturne Mail의 핵심 디자인 방향입니다.
+This is the central visual direction of Nocturne Mail.
 
-일본식 금박 공예의 질감과 현대적인 정보 인터페이스를 결합해 일반적인 SaaS 대시보드보다 조금 더 물성 있고 집중감 있는 메일 환경을 만드는 것이 목표입니다.
+The goal is to combine the material feeling of Japanese gold-leaf craft with a modern information interface, creating a mail environment that feels more tactile and focused than a generic SaaS dashboard.
 
-### 핵심 원칙
+### Core Principles
 
-#### 1. 장식은 구조가 된다
+#### 1. Decoration becomes structure
 
-골드 라인, 작은 레이블, 상태 신호를 단순 장식이 아니라 사용자의 시선을 안내하는 정보 구조로 사용합니다.
+Gold lines, small labels, and status signals are used as information architecture that guides attention, not merely as ornament.
 
-#### 2. 검은색을 단순한 검정으로 사용하지 않는다
+#### 2. Black is not treated as a flat black
 
-페이지 전체를 `#000000` 같은 평면적인 검정으로 만드는 대신 따뜻한 흑갈색과 흑연색의 여러 단계를 사용해 깊이를 만듭니다.
+Instead of filling the whole page with a flat `#000000`, several warm black-brown and graphite layers create depth.
 
-#### 3. 높은 정보 밀도와 여백을 동시에 사용한다
+#### 3. High information density and whitespace coexist
 
-메일 목록은 빠르게 훑어볼 수 있도록 밀도 있게 유지하지만 검색, 제목, 읽기 영역에는 충분한 여백을 제공합니다.
+The message list remains dense enough to scan quickly, while search, titles, and reading areas retain generous whitespace.
 
-#### 4. 인터랙션은 조용하고 빠르게
+#### 4. Interactions stay quiet and fast
 
-과도한 글로우, 바운스, 큰 애니메이션 대신 짧은 이동과 색상 변화로 상태를 전달합니다.
+State changes are communicated through short movement and color changes rather than excessive glow, bounce, or large animation.
 
 ---
 
-## 반응형 디자인
+## Responsive Design
 
 ### Desktop
 
@@ -371,24 +373,24 @@ Nocturne Mail의 핵심 디자인 방향입니다.
 
 ### Tablet
 
-- 오른쪽 컨텍스트 영역 축소 또는 숨김
-- 메일 탐색과 읽기 영역 중심의 2열 구성
+- Collapse or hide the right context area
+- Focus on a two-column navigation + reading layout
 
 ### Mobile
 
-- 단일 열 중심
-- 왼쪽 네비게이션은 drawer 형태로 전환
-- 메일 목록과 본문을 단계적으로 이동하며 탐색
+- Primarily single-column
+- Left navigation becomes a drawer
+- Move between message list and message body in stages
 
 ---
 
-## 실제 웹메일로 확장하려면
+## Extending It into a Real Webmail Client
 
-현재 UI를 실제 메일 서비스로 만들려면 별도의 메일 서버 또는 메일 API와 연결해야 합니다.
+A real mail server or mail API must be connected to turn the current UI into an actual mail service.
 
 ### JMAP
 
-Stalwart Mail Server처럼 JMAP을 지원하는 서버와 연결할 경우 다음 기능을 구현할 수 있습니다.
+With a JMAP-capable server such as Stalwart Mail Server:
 
 ```text
 Nocturne Mail
@@ -404,76 +406,76 @@ Mail Server
       └─ Identity
 ```
 
-프론트엔드에서 직접 서버와 통신하거나 별도의 백엔드 API를 중간에 둘 수 있습니다.
+The frontend can communicate directly with the server or through a separate backend API.
 
 ### IMAP + SMTP
 
-기존 메일 서버와의 호환성을 넓히려면 다음 조합도 가능합니다.
+For broader compatibility with traditional mail servers:
 
 ```text
 Frontend
    │
    ▼
 Application Backend
-   ├─ IMAP  → 메일 조회 / 폴더 / 상태
-   └─ SMTP  → 메일 발송
+   ├─ IMAP  → message retrieval / folders / state
+   └─ SMTP  → message sending
 ```
 
-브라우저에서 IMAP/SMTP에 직접 연결하기보다는 Node.js 등의 백엔드 서버를 중간에 두는 방식이 일반적입니다.
+Using a backend such as Node.js between the browser and IMAP/SMTP is generally preferable to connecting directly from the browser.
 
 ---
 
-## 실제 서비스로 발전시킬 때 필요한 작업
+## Work Needed for a Real Service
 
-1. 사용자 인증
-2. 메일 계정 등록 또는 서버 계정 연동
-3. JMAP 또는 IMAP 클라이언트 구현
-4. 실제 받은편지함 조회
-5. 메일 본문 조회
-6. 읽음/안읽음 상태 동기화
-7. 별표/보관/삭제 구현
-8. 메일 작성 및 전송
-9. 첨부파일 업로드/다운로드
-10. Draft 저장
-11. 실시간 또는 주기적 메일 동기화
-12. 검색 구현
-13. 에러 처리 및 재연결
-14. 세션/토큰 보안 강화
-
----
-
-## 현재 프로젝트의 용도
-
-이 저장소는 다음과 같은 용도로 사용하기 좋습니다.
-
-- 웹메일 UI 디자인 실험
-- 개인 메일 클라이언트 프론트엔드 베이스
-- JMAP 클라이언트 제작의 출발점
-- Stalwart 기반 웹메일 프론트엔드 제작
-- React 기반 대시보드/메일 레이아웃 참고
-- 반응형 3단 메일 인터페이스 프로토타이핑
-
-현재 상태 그대로는 다음 용도로 사용할 수 없습니다.
-
-- Gmail 계정에 로그인해서 실제 메일 읽기
-- 자체 도메인의 실제 메일 송수신
-- SMTP 메일 발송
-- IMAP 받은편지함 확인
-- 운영 환경의 메일 서비스 대체
-
-해당 기능은 별도의 서버 연동 구현이 필요합니다.
+1. User authentication
+2. Mail-account registration or server-account linking
+3. JMAP or IMAP client implementation
+4. Real inbox retrieval
+5. Message-body retrieval
+6. Read/unread synchronization
+7. Star/archive/delete operations
+8. Compose and send
+9. Attachment upload/download
+10. Draft persistence
+11. Real-time or periodic mail synchronization
+12. Search
+13. Error handling and reconnection
+14. Stronger session/token security
 
 ---
 
-## 개발 참고사항
+## Intended Uses
 
-### 목업 데이터
+This repository is useful for:
 
-현재 메일 데이터는 실제 서버에서 가져오는 데이터가 아닙니다. UI 테스트를 위해 코드 내부에 포함되어 있으므로 내용이 변경되거나 초기화되어도 실제 메일에는 아무 영향이 없습니다.
+- Webmail UI design experiments
+- A personal mail-client frontend foundation
+- Starting a JMAP client
+- Building a Stalwart-based webmail frontend
+- Reference for React dashboard/mail layouts
+- Prototyping responsive three-pane mail interfaces
 
-### Express 서버
+In its current state, it cannot be used for:
 
-`server/index.ts`는 현재 API 서버 역할을 하지 않습니다.
+- Signing into Gmail and reading real mail
+- Sending/receiving mail for a custom domain
+- SMTP sending
+- IMAP inbox access
+- Replacing an operational mail service
+
+Those features require separate server integration.
+
+---
+
+## Development Notes
+
+### Mock Data
+
+The current mail data is not loaded from a real server. It is embedded in the code for UI testing, so changing or resetting it has no effect on any real email.
+
+### Express Server
+
+`server/index.ts` does not currently function as an API server.
 
 ```text
 Browser
@@ -481,24 +483,24 @@ Browser
    ▼
 Express
    │
-   └─ dist/public의 정적 파일 제공
+   └─ serves static files from dist/public
 ```
 
-SPA 라우팅을 위해 정의되지 않은 경로에서도 `index.html`을 반환합니다.
+For SPA routing, undefined paths return `index.html`.
 
-### 상태 저장
+### State Persistence
 
-현재 UI 상태 대부분은 클라이언트 메모리 기준입니다. 따라서 페이지를 새로고침하면 일부 조작 상태가 초기화될 수 있습니다.
+Most current UI state lives in client memory. Some interaction state may therefore reset after a page refresh.
 
 ---
 
-## 추천 개발 환경
+## Recommended Development Environment
 
-- Node.js: 최신 LTS 권장
-- pnpm: 프로젝트의 `packageManager` 설정과 호환되는 최신 pnpm 10.x 권장
-- VS Code 또는 Cursor/Codex 등의 TypeScript 지원 에디터
+- Node.js: latest LTS recommended
+- pnpm: latest compatible pnpm 10.x matching the project's `packageManager` configuration
+- VS Code, Cursor, Codex, or another TypeScript-capable editor
 
-설치 후 최소 실행 절차는 아래 세 줄이면 충분합니다.
+The minimum startup flow after cloning is:
 
 ```bash
 git clone https://github.com/homesweetlove/open_web_mail.git
@@ -510,14 +512,14 @@ pnpm install && pnpm dev
 
 ## License
 
-프로젝트의 `package.json`에는 MIT 라이선스가 지정되어 있습니다.
+The project's `package.json` currently declares the MIT license.
 
-실제 배포 또는 외부 공개 시에는 저장소에 별도의 `LICENSE` 파일을 추가하고 사용한 외부 라이브러리 및 리소스의 라이선스도 함께 확인하는 것을 권장합니다.
+Before public deployment or distribution, it is recommended to add a dedicated `LICENSE` file and review the licenses of external libraries and assets as well.
 
 ---
 
-## 요약
+## Summary
 
-**Nocturne Mail은 실제 메일 서버가 아니라 실제 서비스 수준의 웹메일 경험을 설계하기 위한 React 기반 UI 프로토타입입니다.**
+**Nocturne Mail is a React-based UI prototype for designing a production-grade webmail experience, not a real mail server.**
 
-현재 상태만으로도 메일 클라이언트의 레이아웃과 주요 인터랙션을 확인할 수 있으며 향후 JMAP/IMAP/SMTP 또는 자체 메일 서버 API를 연결하면 실제 사용 가능한 웹메일 클라이언트로 확장할 수 있습니다.
+Even in its current state it demonstrates the layout and primary interactions of a mail client. By connecting JMAP, IMAP/SMTP, or a custom mail-server API, it can be expanded into a usable webmail client.
